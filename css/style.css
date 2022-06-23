@@ -1,0 +1,119 @@
+
+html {
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  height: 100vh;
+  padding: 5%;
+}
+
+.container-app {
+  position: relative;
+  margin: auto;
+  width: 65vw;
+  height: 75vh;
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 2rem;
+}
+
+.insights {
+  grid-row: 2 / span 5;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.current-budget {
+  border: solid 2px black;
+}
+
+.desired-budget {
+  border: solid 2px black;
+}
+
+.balance-change {
+  border: solid 2px black;
+}
+
+.budget-remaining {
+  border: solid 2px black;
+}
+
+/* BALANCE */
+.balance {
+  grid-column: span 2;
+  border: solid 2px black;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 2%;
+}
+
+.balance-label {
+  font-size: 2.2rem;
+  margin-top: 1rem;
+}
+
+.balance-date {
+  font-size: 1.4rem;
+}
+
+.balance-value {
+  font-size: 4.5rem;
+}
+
+/* TRANSACTIONS */
+.transactions {
+  grid-row: 2 / span 3;
+  overflow: auto;
+  padding: 0 5%;
+}
+
+.date-row {
+  padding: 2% 5%;
+  background-color: #eee;
+}
+
+.transaction-row {
+  padding: 4% 5%;
+  display: flex;
+}
+
+.transaction-category {
+  font-weight: 500;
+  padding: 0.1rem 1rem;
+  border-radius: 10rem;
+  margin-right: 2rem;
+}
+
+.transaction-date {
+  font-weight: 500;
+}
+
+.transaction-positive {
+  color: #3EC70B;
+}
+
+.transaction-negative {
+  color: #F32424;
+}
+
+.transaction-value {
+  margin-left: auto;
+}
+
+.add-transaction {
+  grid-row: span 2;
+  border: solid 2px black;
+}
+
+.section-heading {
+  font-size: 1.2rem;
+  margin: 0;
+  margin-bottom: 2%;
+}
