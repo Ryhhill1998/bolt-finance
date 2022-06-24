@@ -47,11 +47,9 @@ body {
 /* BALANCE */
 .balance {
   grid-column: span 2;
-  border: solid 2px black;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 0 2%;
 }
 
 .balance-label {
@@ -71,7 +69,6 @@ body {
 .transactions {
   grid-row: 2 / span 3;
   overflow: auto;
-  padding: 0 5%;
 }
 
 .date-row {
@@ -109,10 +106,54 @@ body {
 
 .add-transaction {
   grid-row: span 2;
-  border: solid 2px black;
+  color: #333;
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 0.2fr 1fr repeat(2, 0.5fr) 1fr 0.2fr;
+  grid-template-rows: repeat(2, 1fr) repeat(2, 0.1fr) 1fr;
+  gap: 0.5rem 1.8rem;
+  padding: 4% 0;
+  background-image: linear-gradient(to top left, #39b385, #9be15d);
+  border-radius: 1rem;
+}
+
+.form-label-categories {
+  grid-column: 2 / span 2;
+}
+
+.form-label-amount {
+  grid-column: 4 / span 2;
+}
+
+.transaction-categories {
+  grid-column: 2 / span 2;
+  grid-row: span 2;
+}
+
+.transaction-amount {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.form-item {
+  text-align: center;
+  border: none;
+  border-radius: 0.7rem;
+}
+
+.form-btn {
+  grid-row: 5;
+  grid-column: 3 / span 2;
+  border-radius: 0.7rem;
+  background-color: #fff;
+  cursor: pointer;
 }
 
 .section-heading {
+  text-align: left;
   font-size: 1.2rem;
   margin: 0;
   margin-bottom: 2%;

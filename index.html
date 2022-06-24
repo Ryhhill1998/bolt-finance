@@ -68,7 +68,22 @@
 
     <!-- ADD NEW TRANSACTION -->
     <div class="add-transaction">
-      add-transaction
+      <h2 class="section-heading">Add Transaction</h2>
+      <form class="form">
+        <label class="form-label form-label-categories" for="transaction-categories">Categories</label>
+        <label class="form-label form-label-amount" for="transaction-amount">Amount</label>
+        <select class="form-item transaction-categories">
+          <option>Select</option>
+          <option value="rent">Rent</option>
+          <option value="salary">Salary</option>
+          <option value="groceries">Groceries</option>
+          <option value="shopping">Shopping</option>
+          <option value="going-out">Going out</option>
+          <option value="other">Other</option>
+        </select>
+        <input type="number" class="form-item transaction-amount">
+        <button class="form-item form-btn">Add</button>
+      </form>
     </div>
 
   </main>
