@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" integrity="sha384-/frq1SRXYH/bSyou/HUp/hib7RVN1TawQYja658FEOodR/FQBKVqT9Ol+Oz3Olq5" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -19,16 +20,24 @@
     <!-- ACCOUNT INSIGHTS -->
     <div class="insights">
       <div class="current-budget">
-        current-budget
+        <div class="chart-container">
+          <canvas id="current-budget-doughnut"></canvas>
+        </div>
       </div>
       <div class="desired-budget">
-        desired-budget
+        <div class="chart-container">
+          <canvas id="desired-budget-doughnut"></canvas>
+        </div>
       </div>
       <div class="balance-change">
-        balance-change
+        <div class="chart-container">
+          <canvas id="balance-chart"></canvas>
+        </div>
       </div>
       <div class="budget-remaining">
-        budget-remaining
+        <div class="chart-container">
+          <canvas id="budget-remaining"></canvas>
+        </div>
       </div>
     </div>
 
@@ -37,10 +46,10 @@
       <div>
         <p class="balance-label">Current balance</p>
         <p class="balance-date">
-          As of <span class="date">05/03/2037</span>
+          As of <span class="date">25/06/2022</span>
         </p>
       </div>
-      <p class="balance__value">£0000</p>
+      <p class="balance__value">£6000</p>
     </div>
 
     <!-- TRANSACTIONS -->
@@ -51,18 +60,24 @@
       </div>
       <div class="transaction-row">
         <div class="transaction-category">
-          deposit
+          Salary <i class="fa-solid fa-sack-dollar"></i>
         </div>
-        <div class="transaction-value transaction-positive">£4000</div>
+        <div class="transaction-value transaction-positive">£1600</div>
       </div>
       <div class="date-row">
-        <div class="transaction-date">24/01/2037</div>
+        <div class="transaction-date">14/06/2022</div>
       </div>
       <div class="transaction-row">
         <div class="transaction-category">
-          withdrawal
+          Shopping <i class="fa-solid fa-cart-shopping"></i>
         </div>
-        <div class="transaction-value transaction-negative">-£378</div>
+        <div class="transaction-value transaction-negative">-£40</div>
+      </div>
+      <div class="transaction-row">
+        <div class="transaction-category">
+          Rent <i class="fa-solid fa-house"></i>
+        </div>
+        <div class="transaction-value transaction-negative">-£320</div>
       </div>
     </div>
 
@@ -75,10 +90,9 @@
         <select class="form-item transaction-categories">
           <option>Select</option>
           <option value="rent">Rent</option>
+          <option value="bills">Bills</option>
           <option value="salary">Salary</option>
-          <option value="groceries">Groceries</option>
           <option value="shopping">Shopping</option>
-          <option value="going-out">Going out</option>
           <option value="other">Other</option>
         </select>
         <input type="number" class="form-item transaction-amount">
@@ -88,7 +102,8 @@
 
   </main>
 
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js" charset="utf-8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0" charset="utf-8"></script>
   <script src="scripts/script.js" charset="utf-8"></script>
 </body>
 

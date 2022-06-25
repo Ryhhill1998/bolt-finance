@@ -2,18 +2,20 @@
 html {
   font-size: 1rem;
   font-family: 'Roboto', sans-serif;
+  color: white;
 }
 
 body {
   height: 100vh;
   padding: 5%;
+  background-color: #323232;
 }
 
 .container-app {
   position: relative;
   margin: auto;
-  width: 65vw;
-  height: 75vh;
+  width: 75vw;
+  height: 85vh;
   display: grid;
   grid-template-columns: 3fr 2fr;
   grid-template-rows: repeat(6, 1fr);
@@ -29,19 +31,27 @@ body {
 }
 
 .current-budget {
-  border: solid 2px black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .desired-budget {
-  border: solid 2px black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .balance-change {
-  border: solid 2px black;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
 }
 
 .budget-remaining {
-  border: solid 2px black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* BALANCE */
@@ -73,12 +83,15 @@ body {
 
 .date-row {
   padding: 2% 5%;
-  background-color: #eee;
+  background-color: #EAEAEA;
+  color: black;
 }
 
 .transaction-row {
   padding: 4% 5%;
   display: flex;
+  border-bottom: solid 1px #EAEAEA;
+  /* background-color: #5B5656; */
 }
 
 .transaction-category {
@@ -93,11 +106,11 @@ body {
 }
 
 .transaction-positive {
-  color: #3EC70B;
+  color: #08D9D6;
 }
 
 .transaction-negative {
-  color: #F32424;
+  color: #FF2E63;
 }
 
 .transaction-value {
@@ -106,7 +119,6 @@ body {
 
 .add-transaction {
   grid-row: span 2;
-  color: #333;
   text-align: center;
 }
 
@@ -116,7 +128,8 @@ body {
   grid-template-rows: repeat(2, 1fr) repeat(2, 0.1fr) 1fr;
   gap: 0.5rem 1.8rem;
   padding: 4% 0;
-  background-image: linear-gradient(to top left, #39b385, #9be15d);
+  border: solid 2px rgb(0, 173, 181);
+  background-color: rgb(0, 173, 181, 0.4);
   border-radius: 1rem;
 }
 
@@ -157,4 +170,10 @@ body {
   font-size: 1.2rem;
   margin: 0;
   margin-bottom: 2%;
+  align-self: flex-start;
+}
+
+/* ---------- GRAPHS ---------- */
+.chart-container {
+  height: 99%;
 }
