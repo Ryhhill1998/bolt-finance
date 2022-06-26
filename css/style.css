@@ -124,7 +124,7 @@ body {
 
 .form {
   display: grid;
-  grid-template-columns: 0.2fr 1fr repeat(2, 0.5fr) 1fr 0.2fr;
+  grid-template-columns: 0.2fr 1fr repeat(2, 0.25fr) 1fr 0.2fr;
   grid-template-rows: repeat(2, 1fr) repeat(2, 0.1fr) 1fr;
   gap: 0.5rem 1.8rem;
   padding: 4% 0;
@@ -163,6 +163,8 @@ body {
   border-radius: 0.7rem;
   background-color: #fff;
   cursor: pointer;
+  font-family: inherit;
+  border: none;
 }
 
 .section-heading {

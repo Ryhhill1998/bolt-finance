@@ -7,7 +7,7 @@ const desiredBudgetCanvas = document.getElementById("desired-budget-doughnut");
 const balanceCanvas = document.getElementById("balance-chart");
 const budgetRemainingCanvas = document.getElementById("budget-remaining");
 
-const balanceDate = document.querySelector(".balance-date");
+const dateLabel = document.querySelector(".date");
 const balanceValue = document.querySelector(".balance-value");
 
 const transactionsContainer = document.querySelector(".transactions");
@@ -22,55 +22,55 @@ const account1 = {
   firstName: "Laura",
   LastName: "Jones",
   balanceHistory: [{
-      date: '2022-06-25T17:21:38.602Z',
-      value: 2000,
+      date: '2022-01-25T17:21:38.602Z',
+      value: 600,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
-      value: 1500,
-    },
-    {
-      date: '2022-06-25T17:21:38.602Z',
-      value: 1100,
-    },
-    {
-      date: '2022-06-25T17:21:38.602Z',
+      date: '2022-02-25T17:21:38.602Z',
       value: 400,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
-      value: 600,
+      date: '2022-03-25T17:21:38.602Z',
+      value: 1100,
+    },
+    {
+      date: '2022-04-25T17:21:38.602Z',
+      value: 1500,
+    },
+    {
+      date: '2022-05-25T17:21:38.602Z',
+      value: 2000,
     },
   ],
   transactions: [{
-      date: '2022-06-25T17:21:38.602Z',
-      category: "rent",
-      value: -1000,
+      date: '2022-06-06T17:21:38.602Z',
+      category: "bills",
+      value: -100,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
+      date: '2022-06-12T17:21:38.602Z',
+      category: "shopping",
+      value: -130,
+    },
+    {
+      date: '2022-06-16T17:21:38.602Z',
+      category: "other",
+      value: -20,
+    },
+    {
+      date: '2022-06-20T17:21:38.602Z',
+      category: "salary",
+      value: 2000,
+    },
+    {
+      date: '2022-06-22T17:21:38.602Z',
       category: "shopping",
       value: -60,
     },
     {
       date: '2022-06-25T17:21:38.602Z',
-      category: "salary",
-      value: 2000,
-    },
-    {
-      date: '2022-06-25T17:21:38.602Z',
-      category: "other",
-      value: -20,
-    },
-    {
-      date: '2022-06-25T17:21:38.602Z',
-      category: "shopping",
-      value: -130,
-    },
-    {
-      date: '2022-06-25T17:21:38.602Z',
-      category: "bills",
-      value: -100,
+      category: "rent",
+      value: -1000,
     },
   ],
   budget: {
@@ -81,62 +81,59 @@ const account1 = {
   }
 };
 
-
-
-
 const account2 = {
   firstName: "Ethan",
   LastName: "Wilks",
   balanceHistory: [{
-      date: '2022-06-25T17:21:38.602Z',
+      date: '2022-05-25T17:21:38.602Z',
       value: 1200,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
+      date: '2022-04-25T17:21:38.602Z',
       value: 1500,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
+      date: '2022-03-25T17:21:38.602Z',
       value: 600,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
+      date: '2022-02-25T17:21:38.602Z',
       value: 700,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
+      date: '2022-01-25T17:21:38.602Z',
       value: 100,
     },
   ],
   transactions: [{
-      date: '2022-06-25T17:21:38.602Z',
-      category: "shopping",
-      value: -200,
+      date: '2022-06-03T17:21:38.602Z',
+      category: "bills",
+      value: -30,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
-      category: "salary",
-      value: 1500,
-    },
-    {
-      date: '2022-06-25T17:21:38.602Z',
-      category: "other",
-      value: -90,
-    },
-    {
-      date: '2022-06-25T17:21:38.602Z',
-      category: "rent",
-      value: -700,
-    },
-    {
-      date: '2022-06-25T17:21:38.602Z',
+      date: '2022-06-04T17:21:38.602Z',
       category: "bills",
       value: -60,
     },
     {
-      date: '2022-06-25T17:21:38.602Z',
-      category: "bills",
-      value: -30,
+      date: '2022-06-10T17:21:38.602Z',
+      category: "rent",
+      value: -700,
+    },
+    {
+      date: '2022-06-11T17:21:38.602Z',
+      category: "other",
+      value: -90,
+    },
+    {
+      date: '2022-06-15T17:21:38.602Z',
+      category: "salary",
+      value: 1500,
+    },
+    {
+      date: '2022-06-23T17:21:38.602Z',
+      category: "shopping",
+      value: -200,
     },
   ],
   budget: {
@@ -149,17 +146,55 @@ const account2 = {
 
 const accounts = [account1, account2];
 
+const categoryIcons = {
+  salary: `<i class="fa-solid fa-sack-dollar"></i>`,
+  rent: `<i class="fa-solid fa-house"></i>`,
+  shopping: `<i class="fa-solid fa-cart-shopping"></i>`,
+  bills: `<i class="fa-solid fa-receipt"></i>`,
+  other: `<i class="fa-solid fa-circle-question"></i>`,
+};
+
 
 // --------------- app functions --------------- //
 
+// format date function
 const formatDate = (date, locale, options) => new Intl.DateTimeFormat(locale, options).format(new Date(date));
+
+// format currency function
+const formatCurrency = (value, locale, currency) => {
+  return new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: currency,
+  }).format(value);
+};
 
 // calculate and display balance
 const displayBalance = account => {
   const transactions = account.transactions;
   account.currentBalance = transactions.reduce((sum, transaction) => sum + transaction.value, 0);
-  balanceValue.textContent = `£${account.currentBalance}`;
+  balanceValue.textContent = `${formatCurrency(account.currentBalance, "en-GB", "GBP")}`;
 };
+
+// display date
+const displayDate = () => {
+
+  const updateDateLabel = () => {
+    dateLabel.textContent = formatDate(new Date(), "en-GB", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric"
+    });
+  };
+
+  updateDateLabel();
+
+  setInterval(updateDateLabel, 1000);
+};
+
+displayDate();
 
 // display transactions
 const displayTransactions = account => {
@@ -177,18 +212,19 @@ const displayTransactions = account => {
       month: "long",
       year: "numeric",
     });
-    
+
     const category = transaction.category;
-    const value = transaction.value;
-    const sign = Math.sign(value);
+    const icon = categoryIcons[category];
+    const value = formatCurrency(transaction.value, "en-GB", "GBP");
+    const sign = Math.sign(transaction.value) === 1 ? "positive" : "negative";
 
     const html = `
     <div class="date-row">
       <div class="transaction-date">${date}</div>
     </div>
     <div class="transaction-row">
-      <div class="transaction-category">${category}</div>
-      <div class="transaction-value transaction-${sign === 1 ? "positive" : "negative"}">£${value * sign}</div>
+      <div class="transaction-category">${category} ${icon}</div>
+      <div class="transaction-value transaction-${sign}">${value}</div>
     </div>
     `;
 
@@ -202,6 +238,8 @@ const displayTransactions = account => {
 displayBalance(account1);
 displayTransactions(account1);
 
+// --------------- graph functions --------------- //
+
 // calculate current budget for graphs
 const calcCurrBudget = account => {
 
@@ -210,7 +248,7 @@ const calcCurrBudget = account => {
 
   accTransactions.forEach(transaction => {
     const category = transaction.category;
-    const value = transaction.value;
+    const value = Math.abs(transaction.value);
     if (categoryTotals.has(category)) {
       const categoryValue = categoryTotals.get(category);
       categoryTotals.set(category, categoryValue + value);
@@ -254,12 +292,31 @@ const calcBudgetRemaining = account => {
 
 // format balance entries over past 6 months
 const formatBalanceChanges = account => {
+
+  const options = {
+    month: "long",
+  };
+
+  const generateMonth = date => formatDate(date, "en-GB", options).slice(0, 3);
+
+  const output = {
+    balances: [],
+    months: []
+  };
   const balanceHistory = account.balanceHistory;
-  output = [account.currentBalance];
+
   balanceHistory.forEach(balance => {
-    output.push(balance.value);
+    output.balances.push(balance.value);
+    const month = generateMonth(balance.date);
+    output.months.push(month);
   });
-  return output.reverse();
+
+  const today = generateMonth(new Date());
+
+  output.balances.push(account.currentBalance);
+  output.months.push(today);
+
+  return output;
 };
 
 
@@ -377,20 +434,13 @@ const desiredBudgetChart = new Chart(
 );
 
 // balance change over time insight
-const balanceChartLabels = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-];
+const balanceChartLabels = formatBalanceChanges(currentAccount).months;
 
 const balanceChartData = {
   labels: balanceChartLabels,
   datasets: [{
     label: 'Balance',
-    data: formatBalanceChanges(currentAccount),
+    data: formatBalanceChanges(currentAccount).balances,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
       'rgba(255, 159, 64, 0.2)',
