@@ -6,16 +6,16 @@ html {
 }
 
 body {
-  height: 100vh;
+  height: 95vh;
   background-color: #323232;
   text-align: center;
 }
 
 .logo {
   font-size: 2.8rem;
-  margin: 0;
-  margin-top: 0.5rem;
   font-weight: bold;
+  padding: 0;
+  margin: 0;
   color: #323232;
   text-shadow: -0.8px -0.8px 0 #08D9D6, 0.8px -0.8px 0 #08D9D6, -0.8px 0.8px 0 #08D9D6, 0.8px 0.8px 0 #08D9D6;
   font-family: 'Yellowtail', cursive;
@@ -86,18 +86,18 @@ body {
 }
 
 .balance-label {
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin: 0;
   margin-bottom: -0.5rem;
 }
 
 .balance-date {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   margin-left: 1rem;
 }
 
 .balance-value {
-  font-size: 2.3rem;
+  font-size: 2rem;
   margin-bottom: 3rem;
 }
 
@@ -105,6 +105,7 @@ body {
 .transactions {
   grid-row: 2 / span 3;
   overflow: auto;
+  text-align: left;
 }
 
 .date-row {

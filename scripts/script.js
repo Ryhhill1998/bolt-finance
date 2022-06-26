@@ -13,6 +13,8 @@ const balanceValue = document.querySelector(".balance-value");
 const transactionsContainer = document.querySelector(".transactions");
 
 const transactionCategory = document.querySelector(".transaction-categories");
+const transactionAmount = document.querySelector(".transaction-amount");
+const categoryPreset = document.getElementById("preset-selection");
 const formBtn = document.querySelector(".form-btn");
 
 
@@ -237,14 +239,30 @@ const displayTransactions = account => {
 
 // update UI
 const updateUI = account => {
-
+  displayBalance(account);
+  displayTransactions(account);
 };
 
-displayBalance(account1);
-displayTransactions(account1);
+updateUI(account1);
 
 // add transaction function
-// const addTransaction = ()
+const addTransaction = (account, date, category, value) => {
+  account.transactions.push({
+    date: date,
+    category: category,
+    value: value
+  });
+  updateUI(account);
+};
+
+// --------------- event listeners --------------- //
+
+formBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  addTransaction(currentAccount, new Date(), transactionCategory.value, +transactionAmount.value);
+  categoryPreset.selected = true;
+  transactionAmount.value = "";
+});
 
 // --------------- graph functions --------------- //
 
