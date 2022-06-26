@@ -8,15 +8,37 @@ html {
 body {
   height: 100vh;
   background-color: #323232;
+  text-align: center;
+}
+
+.logo {
+  font-size: 2.8rem;
+  margin: 0;
+  margin-top: 0.5rem;
+  font-weight: bold;
+  color: #323232;
+  text-shadow: -0.8px -0.8px 0 #08D9D6, 0.8px -0.8px 0 #08D9D6, -0.8px 0.8px 0 #08D9D6, 0.8px 0.8px 0 #08D9D6;
+  font-family: 'Yellowtail', cursive;
+}
+
+.logo-part2 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.bolt {
+  font-size: 2.9rem;
+  transform: rotate(10deg);
+  margin: 0;
 }
 
 .container-app {
   position: relative;
   margin: auto;
-  width: 75vw;
+  width: 80vw;
   height: 85vh;
   display: grid;
-  grid-template-columns: 3fr 2fr;
+  grid-template-columns: 5fr 3fr;
   grid-template-rows: repeat(6, 1fr);
   gap: 2rem;
 }
@@ -55,23 +77,28 @@ body {
 
 /* BALANCE */
 .balance {
+  padding: 0 3%;
   grid-column: span 2;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  border-bottom: solid 1px white;
 }
 
 .balance-label {
   font-size: 2rem;
-  margin-top: 1rem;
+  margin: 0;
+  margin-bottom: -0.5rem;
 }
 
 .balance-date {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
+  margin-left: 1rem;
 }
 
 .balance-value {
-  font-size: 2.5rem;
+  font-size: 2.3rem;
+  margin-bottom: 3rem;
 }
 
 /* TRANSACTIONS */
@@ -124,8 +151,8 @@ body {
 
 .form {
   display: grid;
-  grid-template-columns: 0.2fr 1fr repeat(2, 0.25fr) 1fr 0.2fr;
-  grid-template-rows: repeat(2, 1fr) repeat(2, 0.1fr) 1fr;
+  grid-template-columns: 0.2fr 1fr repeat(2, 0.1fr) 1fr 0.2fr;
+  grid-template-rows: repeat(2, 1fr) repeat(2, 0.3fr) 1.2fr;
   gap: 0.5rem 1.8rem;
   padding: 4% 0;
   border: solid 2px rgb(0, 173, 181);

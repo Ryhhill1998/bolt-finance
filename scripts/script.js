@@ -7,7 +7,7 @@ const desiredBudgetCanvas = document.getElementById("desired-budget-doughnut");
 const balanceCanvas = document.getElementById("balance-chart");
 const budgetRemainingCanvas = document.getElementById("budget-remaining");
 
-const dateLabel = document.querySelector(".date");
+const dateLabel = document.querySelector(".balance-date");
 const balanceValue = document.querySelector(".balance-value");
 
 const transactionsContainer = document.querySelector(".transactions");
@@ -235,8 +235,16 @@ const displayTransactions = account => {
 
 };
 
+// update UI
+const updateUI = account => {
+
+};
+
 displayBalance(account1);
 displayTransactions(account1);
+
+// add transaction function
+// const addTransaction = ()
 
 // --------------- graph functions --------------- //
 
@@ -268,13 +276,11 @@ const calcCurrBudget = account => {
 // return budget as array
 const formatBudget = account => {
   const budget = account.budget;
-  const rent = budget.rent;
-  const bills = budget.bills;
-  const shopping = budget.shopping;
-  const other = budget.other;
-
-  return [rent, bills, shopping, other];
+  return [budget.rent, budget.bills, budget.shopping, budget.other];
 };
+
+const convertToPercentage = (value, total) => `${Math.round(100 * (value / total))}%`;
+
 
 // calculate budget remaining
 const calcBudgetRemaining = account => {
@@ -303,6 +309,7 @@ const formatBalanceChanges = account => {
     balances: [],
     months: []
   };
+
   const balanceHistory = account.balanceHistory;
 
   balanceHistory.forEach(balance => {
@@ -323,7 +330,6 @@ const formatBalanceChanges = account => {
 // --------------- chartjs graphs --------------- //
 
 let currentAccount = account1;
-
 
 // current budget insight
 const currentBudgetData = {
@@ -357,11 +363,22 @@ const currentBudgetOptions = {
     legend: {
       display: false
     },
+    datalabels: {
+      color: 'white',
+      formatter: function(value, context) {
+        const dataArray = context.chart.data.datasets[0].data;
+        const sum = dataArray.reduce((sum, value) => sum + value, 0);
+        return convertToPercentage(value, sum);
+      },
+    },
     title: {
       display: true,
       text: "Current Budget Distribution",
       color: "white",
-      padding: 15
+      padding: 15,
+      font: {
+        size: 15
+      }
     }
   },
   reponsive: true,
@@ -371,6 +388,7 @@ const currentBudgetOptions = {
 const currentBudgetConfig = {
   type: 'doughnut',
   data: currentBudgetData,
+  plugins: [ChartDataLabels],
   options: currentBudgetOptions
 };
 
@@ -411,12 +429,23 @@ const desiredBudgetOptions = {
     legend: {
       display: false
     },
+    datalabels: {
+      color: 'white',
+      formatter: function(value, context) {
+        const dataArray = context.chart.data.datasets[0].data;
+        const sum = dataArray.reduce((sum, value) => sum + value, 0);
+        return convertToPercentage(value, sum);
+      },
+    },
     title: {
       display: true,
       text: "Desired Budget Distribution",
       color: "white",
-      padding: 15
-    }
+      padding: 15,
+      font: {
+        size: 15
+      }
+    },
   },
   reponsive: true,
   maintainAspectRatio: false,
@@ -425,6 +454,7 @@ const desiredBudgetOptions = {
 const desiredBudgetConfig = {
   type: 'doughnut',
   data: desiredBudgetData,
+  plugins: [ChartDataLabels],
   options: desiredBudgetOptions
 };
 
@@ -475,7 +505,10 @@ const balanceChartOptions = {
       display: true,
       text: "Balance Change Over Time",
       color: "white",
-      padding: 20
+      padding: 20,
+      font: {
+        size: 15
+      }
     }
   },
   scales: {
@@ -517,7 +550,7 @@ const budgetRemainingLabels = [
 const budgetRemainingData = {
   labels: budgetRemainingLabels,
   datasets: [{
-    label: 'Balance',
+    label: 'Budget remaining',
     data: calcBudgetRemaining(currentAccount),
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
@@ -550,7 +583,10 @@ const budgetRemainingOptions = {
       display: true,
       text: "Budget Remaining",
       color: "white",
-      padding: 20
+      padding: 20,
+      font: {
+        size: 15
+      }
     }
   },
   scales: {
