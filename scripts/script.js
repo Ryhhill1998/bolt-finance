@@ -2,10 +2,7 @@
 
 const containerApp = document.querySelector(".container-app");
 
-const currBudgetCanvas = document.getElementById("current-budget-doughnut");
-const desiredBudgetCanvas = document.getElementById("desired-budget-doughnut");
-const balanceCanvas = document.getElementById("balance-chart");
-const budgetRemainingCanvas = document.getElementById("budget-remaining");
+const canvasArray = document.querySelectorAll("canvas");
 
 const dateLabel = document.querySelector(".balance-date");
 const balanceValue = document.querySelector(".balance-value");
@@ -252,14 +249,6 @@ const displayTransactions = account => {
   transactionsContainer.insertAdjacentHTML('afterbegin', header);
 };
 
-// update UI
-const updateUI = account => {
-  displayBalance(account);
-  displayTransactions(account);
-};
-
-updateUI(account1);
-
 // add transaction function
 const addTransaction = (account, date, category, value) => {
   account.transactions.push({
@@ -425,10 +414,6 @@ const currentBudgetConfig = {
   options: currentBudgetOptions
 };
 
-const currentBudgetChart = new Chart(
-  document.getElementById('current-budget-doughnut'),
-  currentBudgetConfig
-);
 
 // desired budget insight
 const desiredBudgetData = {
@@ -491,10 +476,6 @@ const desiredBudgetConfig = {
   options: desiredBudgetOptions
 };
 
-const desiredBudgetChart = new Chart(
-  document.getElementById('desired-budget-doughnut'),
-  desiredBudgetConfig
-);
 
 // balance change over time insight
 const balanceChartLabels = formatBalanceChanges(currentAccount).months;
@@ -567,10 +548,6 @@ const balanceChartConfig = {
   options: balanceChartOptions
 };
 
-const balanceChart = new Chart(
-  document.getElementById('balance-chart'),
-  balanceChartConfig
-);
 
 // budget remaining insight
 const budgetRemainingLabels = [
@@ -646,7 +623,21 @@ const budgetRemainingConfig = {
   options: budgetRemainingOptions
 };
 
-const budgetRemainingChart = new Chart(
-  document.getElementById('budget-remaining'),
-  budgetRemainingConfig
-);
+
+// graph variables
+let currentBudgetChart, desiredBudgetChart, balanceChart, budgetRemainingChart;
+const charts = [currentBudgetChart, desiredBudgetChart, balanceChart, budgetRemainingChart];
+const configsArray = [currentBudgetConfig, desiredBudgetConfig, balanceChart, budgetRemainingChart]
+
+// create graph function
+const createGraph = (canvas, config) => new Chart(canvas, config);
+
+// update UI
+const updateUI = account => {
+  displayBalance(account);
+  displayTransactions(account);
+  charts.forEach(chart => chart.destroy());
+  
+};
+
+updateUI(currentAccount);
