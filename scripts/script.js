@@ -108,19 +108,19 @@ const account2 = {
     },
   ],
   transactions: [{
-      date: '2022-06-03T17:21:38.602Z',
-      category: "bills",
-      value: -30,
-    },
-    {
       date: '2022-06-04T17:21:38.602Z',
       category: "bills",
       value: -60,
     },
     {
-      date: '2022-06-10T17:21:38.602Z',
-      category: "rent",
-      value: -700,
+      date: '2022-06-03T17:21:38.602Z',
+      category: "bills",
+      value: -30,
+    },
+    {
+      date: '2022-06-23T17:21:38.602Z',
+      category: "shopping",
+      value: -200,
     },
     {
       date: '2022-06-11T17:21:38.602Z',
@@ -133,9 +133,9 @@ const account2 = {
       value: 1500,
     },
     {
-      date: '2022-06-23T17:21:38.602Z',
-      category: "shopping",
-      value: -200,
+      date: '2022-06-10T17:21:38.602Z',
+      category: "rent",
+      value: -700,
     },
   ],
   budget: {
@@ -201,19 +201,35 @@ displayDate();
 // display transactions
 const displayTransactions = account => {
 
+  // local functions
+  const sortTransactions = transactions => {
+    const createDateNum = dateString => +new Date(dateString);
+    transactions.sort((a, b) => createDateNum(a.date) - createDateNum(b.date));
+  };
+
+  const formatTransactionDate = date => {
+    const daysFromNow = (+new Date() - +date) / (1000 * 60 * 60 * 24);
+    if (daysFromNow < 1) return "Today";
+    if (daysFromNow < 2) return "Yesterday";
+    if (daysFromNow <= 7) return `${Math.floor(daysFromNow)} days ago`;
+    return formatDate(date, "en-GB", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    });
+  };
+
+  // main function
   const accTransactions = account.transactions;
+
+  sortTransactions(accTransactions);
 
   transactionsContainer.innerHTML = "";
   const header = `<h2 class="section-heading">Transactions</h2>`;
 
   accTransactions.forEach(transaction => {
 
-    const date = formatDate(transaction.date, "en-GB", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+    const date = formatTransactionDate(new Date(transaction.date));
 
     const category = transaction.category;
     const icon = categoryIcons[category];
@@ -234,7 +250,6 @@ const displayTransactions = account => {
   });
 
   transactionsContainer.insertAdjacentHTML('afterbegin', header);
-
 };
 
 // update UI
