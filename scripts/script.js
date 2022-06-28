@@ -17,6 +17,9 @@ const transactionAmount = document.querySelector(".transaction-amount");
 const categoryPreset = document.getElementById("preset-selection");
 const formBtn = document.querySelector(".form-btn");
 
+const labelSummaryIn = document.querySelector(".label-summary-in");
+const labelSummaryOut = document.querySelector(".label-summary-out");
+
 
 // --------------- app data --------------- //
 
@@ -192,7 +195,6 @@ const displayDate = () => {
   };
 
   updateDateLabel();
-
   setInterval(updateDateLabel, 1000);
 };
 
@@ -228,9 +230,7 @@ const displayTransactions = account => {
   const header = `<h2 class="section-heading">Transactions</h2>`;
 
   accTransactions.forEach(transaction => {
-
     const date = formatTransactionDate(new Date(transaction.date));
-
     const category = transaction.category;
     const icon = categoryIcons[category];
     const value = formatCurrency(transaction.value, "en-GB", "GBP");
@@ -252,6 +252,15 @@ const displayTransactions = account => {
   transactionsContainer.insertAdjacentHTML('afterbegin', header);
 };
 
+// display transactions summary
+const displaySummary = account => {
+  const transactions = account.transactions;
+  const totalIn = transactions.filter(transaction => transaction.value > 0).reduce((sum, transaction) => sum + transaction.value, 0);
+  const totalOut = transactions.filter(transaction => transaction.value < 0).reduce((sum, transaction) => sum + Math.abs(transaction.value), 0);
+  labelSummaryIn.textContent = formatCurrency(totalIn, "en-GB", "GBP");
+  labelSummaryOut.textContent = formatCurrency(totalOut, "en-GB", "GBP");
+};
+
 // add transaction function
 const addTransaction = (account, date, category, value) => {
   account.transactions.push({
@@ -264,7 +273,7 @@ const addTransaction = (account, date, category, value) => {
 
 // --------------- event listeners --------------- //
 
-// add r=transaction functionality
+// add transaction functionality
 formBtn.addEventListener("click", (e) => {
   e.preventDefault();
   addTransaction(currentAccount, new Date(), transactionCategory.value, +transactionAmount.value);
@@ -335,7 +344,7 @@ const formatBalanceChanges = account => {
 let currentAccount = account1;
 
 // current budget insight
-const createCurrBudgetChart = () => {
+const createCurrBudgetChart = account => {
 
   if (currentBudgetChart) currentBudgetChart.destroy();
 
@@ -348,7 +357,7 @@ const createCurrBudgetChart = () => {
     ],
     datasets: [{
       label: 'My First Dataset',
-      data: calcCurrBudget(currentAccount),
+      data: calcCurrBudget(account),
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(255, 159, 64, 0.2)',
@@ -406,7 +415,7 @@ const createCurrBudgetChart = () => {
 
 
 // desired budget insight
-const createDesBudgetChart = () => {
+const createDesBudgetChart = account => {
 
   if (desiredBudgetChart) desiredBudgetChart.destroy();
 
@@ -419,7 +428,7 @@ const createDesBudgetChart = () => {
     ],
     datasets: [{
       label: 'My First Dataset',
-      data: formatBudget(currentAccount),
+      data: formatBudget(account),
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(255, 159, 64, 0.2)',
@@ -477,15 +486,15 @@ const createDesBudgetChart = () => {
 
 
 // balance change over time insight
-const createBalanceChart = () => {
+const createBalanceChart = account => {
 
   if (balanceChart) balanceChart.destroy();
 
   const balanceChartData = {
-    labels: formatBalanceChanges(currentAccount).months,
+    labels: formatBalanceChanges(account).months,
     datasets: [{
       label: 'Balance',
-      data: formatBalanceChanges(currentAccount).balances,
+      data: formatBalanceChanges(account).balances,
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(255, 159, 64, 0.2)',
@@ -556,7 +565,7 @@ const createBalanceChart = () => {
 
 
 // budget remaining insight
-const createBudgetRemainingChart = () => {
+const createBudgetRemainingChart = account => {
 
   if (budgetRemainingChart) budgetRemainingChart.destroy();
 
@@ -569,7 +578,7 @@ const createBudgetRemainingChart = () => {
     ],
     datasets: [{
       label: 'Budget remaining',
-      data: calcBudgetRemaining(currentAccount),
+      data: calcBudgetRemaining(account),
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(255, 159, 64, 0.2)',
@@ -644,10 +653,11 @@ let currentBudgetChart, desiredBudgetChart, balanceChart, budgetRemainingChart;
 const updateUI = account => {
   displayBalance(account);
   displayTransactions(account);
-  createCurrBudgetChart();
-  createDesBudgetChart();
-  createBalanceChart();
-  createBudgetRemainingChart();
+  displaySummary(account);
+  createCurrBudgetChart(account);
+  createDesBudgetChart(account);
+  createBalanceChart(account);
+  createBudgetRemainingChart(account);
 };
 
 updateUI(currentAccount);
