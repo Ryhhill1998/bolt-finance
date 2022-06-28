@@ -264,6 +264,7 @@ const addTransaction = (account, date, category, value) => {
 
 // --------------- event listeners --------------- //
 
+// add r=transaction functionality
 formBtn.addEventListener("click", (e) => {
   e.preventDefault();
   addTransaction(currentAccount, new Date(), transactionCategory.value, +transactionAmount.value);
@@ -279,21 +280,10 @@ const calcCurrBudget = account => {
   const categoryTotals = new Map();
   const accTransactions = account.transactions;
 
-  accTransactions.forEach(transaction => {
-    const category = transaction.category;
-    const value = Math.abs(transaction.value);
-    if (categoryTotals.has(category)) {
-      const categoryValue = categoryTotals.get(category);
-      categoryTotals.set(category, categoryValue + value);
-    } else {
-      categoryTotals.set(category, value);
-    }
-  });
-
-  const rent = categoryTotals.get("rent");
-  const bills = categoryTotals.get("bills");
-  const shopping = categoryTotals.get("shopping");
-  const other = categoryTotals.get("other");
+  const rent = accTransactions.filter(transaction => transaction.category === "rent").reduce((sum, transaction) => sum + Math.abs(transaction.value), 0);
+  const bills = accTransactions.filter(transaction => transaction.category === "bills").reduce((sum, transaction) => sum + Math.abs(transaction.value), 0);
+  const shopping = accTransactions.filter(transaction => transaction.category === "shopping").reduce((sum, transaction) => sum + Math.abs(transaction.value), 0);
+  const other = accTransactions.filter(transaction => transaction.category === "other").reduce((sum, transaction) => sum + Math.abs(transaction.value), 0);
 
   return [rent, bills, shopping, other];
 };
@@ -324,29 +314,17 @@ const calcBudgetRemaining = account => {
 // format balance entries over past 6 months
 const formatBalanceChanges = account => {
 
-  const options = {
-    month: "long",
-  };
-
-  const generateMonth = date => formatDate(date, "en-GB", options).slice(0, 3);
-
-  const output = {
-    balances: [],
-    months: []
-  };
+  const generateMonth = date => formatDate(date, "en-GB", {month: "long"}).slice(0, 3);
 
   const balanceHistory = account.balanceHistory;
 
-  balanceHistory.forEach(balance => {
-    output.balances.push(balance.value);
-    const month = generateMonth(balance.date);
-    output.months.push(month);
-  });
-
-  const today = generateMonth(new Date());
+  const output = {
+    balances: balanceHistory.map(bal => bal.value),
+    months: balanceHistory.map(bal => generateMonth(bal.date))
+  };
 
   output.balances.push(account.currentBalance);
-  output.months.push(today);
+  output.months.push(generateMonth(new Date()));
 
   return output;
 };
@@ -357,292 +335,319 @@ const formatBalanceChanges = account => {
 let currentAccount = account1;
 
 // current budget insight
-const currentBudgetData = {
-  labels: [
-    'Rent',
-    'Bills',
-    'Shopping',
-    'Other'
-  ],
-  datasets: [{
-    label: 'My First Dataset',
-    data: calcCurrBudget(currentAccount),
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-    ],
-  }]
-};
+const createCurrBudgetChart = () => {
 
-const currentBudgetOptions = {
-  plugins: {
-    legend: {
-      display: false
-    },
-    datalabels: {
-      color: 'white',
-      formatter: function(value, context) {
-        const dataArray = context.chart.data.datasets[0].data;
-        const sum = dataArray.reduce((sum, value) => sum + value, 0);
-        return convertToPercentage(value, sum);
+  if (currentBudgetChart) currentBudgetChart.destroy();
+
+  const currentBudgetData = {
+    labels: [
+      'Rent',
+      'Bills',
+      'Shopping',
+      'Other'
+    ],
+    datasets: [{
+      label: 'My First Dataset',
+      data: calcCurrBudget(currentAccount),
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+      ],
+    }]
+  };
+
+  const currentBudgetOptions = {
+    plugins: {
+      legend: {
+        display: false
       },
-    },
-    title: {
-      display: true,
-      text: "Current Budget Distribution",
-      color: "white",
-      padding: 15,
-      font: {
-        size: 15
+      datalabels: {
+        color: 'white',
+        formatter: function(value, context) {
+          const dataArray = context.chart.data.datasets[0].data;
+          const sum = dataArray.reduce((sum, value) => sum + value, 0);
+          return convertToPercentage(value, sum);
+        },
+      },
+      title: {
+        display: true,
+        text: "Current Budget Distribution",
+        color: "white",
+        padding: 15,
+        font: {
+          size: 15
+        }
       }
-    }
-  },
-  reponsive: true,
-  maintainAspectRatio: false,
-};
+    },
+    reponsive: true,
+    maintainAspectRatio: false,
+  };
 
-const currentBudgetConfig = {
-  type: 'doughnut',
-  data: currentBudgetData,
-  plugins: [ChartDataLabels],
-  options: currentBudgetOptions
-};
+  const currentBudgetConfig = {
+    type: 'doughnut',
+    data: currentBudgetData,
+    plugins: [ChartDataLabels],
+    options: currentBudgetOptions
+  };
+
+  currentBudgetChart = new Chart(currBudgetCanvas, currentBudgetConfig);
+}
+
+
 
 
 // desired budget insight
-const desiredBudgetData = {
-  labels: [
-    'Rent',
-    'Bills',
-    'Shopping',
-    'Other'
-  ],
-  datasets: [{
-    label: 'My First Dataset',
-    data: formatBudget(currentAccount),
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-    ],
-  }]
-};
+const createDesBudgetChart = () => {
 
-const desiredBudgetOptions = {
-  plugins: {
-    legend: {
-      display: false
-    },
-    datalabels: {
-      color: 'white',
-      formatter: function(value, context) {
-        const dataArray = context.chart.data.datasets[0].data;
-        const sum = dataArray.reduce((sum, value) => sum + value, 0);
-        return convertToPercentage(value, sum);
+  if (desiredBudgetChart) desiredBudgetChart.destroy();
+
+  const desiredBudgetData = {
+    labels: [
+      'Rent',
+      'Bills',
+      'Shopping',
+      'Other'
+    ],
+    datasets: [{
+      label: 'My First Dataset',
+      data: formatBudget(currentAccount),
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+      ],
+    }]
+  };
+
+  const desiredBudgetOptions = {
+    plugins: {
+      legend: {
+        display: false
+      },
+      datalabels: {
+        color: 'white',
+        formatter: function(value, context) {
+          const dataArray = context.chart.data.datasets[0].data;
+          const sum = dataArray.reduce((sum, value) => sum + value, 0);
+          return convertToPercentage(value, sum);
+        },
+      },
+      title: {
+        display: true,
+        text: "Desired Budget Distribution",
+        color: "white",
+        padding: 15,
+        font: {
+          size: 15
+        }
       },
     },
-    title: {
-      display: true,
-      text: "Desired Budget Distribution",
-      color: "white",
-      padding: 15,
-      font: {
-        size: 15
-      }
-    },
-  },
-  reponsive: true,
-  maintainAspectRatio: false,
-};
+    reponsive: true,
+    maintainAspectRatio: false,
+  };
 
-const desiredBudgetConfig = {
-  type: 'doughnut',
-  data: desiredBudgetData,
-  plugins: [ChartDataLabels],
-  options: desiredBudgetOptions
-};
+  const desiredBudgetConfig = {
+    type: 'doughnut',
+    data: desiredBudgetData,
+    plugins: [ChartDataLabels],
+    options: desiredBudgetOptions
+  };
+
+  desiredBudgetChart = new Chart(desiredBudgetCanvas, desiredBudgetConfig);
+}
+
+
 
 
 // balance change over time insight
-const balanceChartLabels = formatBalanceChanges(currentAccount).months;
+const createBalanceChart = () => {
 
-const balanceChartData = {
-  labels: balanceChartLabels,
-  datasets: [{
-    label: 'Balance',
-    data: formatBalanceChanges(currentAccount).balances,
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-    ],
-    borderWidth: 1,
-  }]
-};
+  if (balanceChart) balanceChart.destroy();
 
-const balanceChartOptions = {
-  plugins: {
-    legend: {
-      display: false
-    },
-    datalabels: {
-      color: 'white',
-      anchor: "end",
-      align: "top",
-    },
-    title: {
-      display: true,
-      text: "Balance Change Over Time",
-      color: "white",
-      padding: 20,
-      font: {
-        size: 15
-      }
-    }
-  },
-  scales: {
-    x: {
-      beginAtZero: true,
-      ticks: {
-        color: "white"
+  const balanceChartData = {
+    labels: formatBalanceChanges(currentAccount).months,
+    datasets: [{
+      label: 'Balance',
+      data: formatBalanceChanges(currentAccount).balances,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+        'rgb(54, 162, 235)',
+        'rgb(153, 102, 255)',
+      ],
+      borderWidth: 1,
+    }]
+  };
+
+  const balanceChartOptions = {
+    plugins: {
+      legend: {
+        display: false
+      },
+      datalabels: {
+        color: 'white',
+        anchor: "end",
+        align: "top",
+      },
+      title: {
+        display: true,
+        text: "Balance Change Over Time",
+        color: "white",
+        padding: 20,
+        font: {
+          size: 15
+        }
       }
     },
-    y: {
-      beginAtZero: true,
-      display: false,
-    }
-  },
-  reponsive: true,
-  maintainAspectRatio: false,
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: {
+          color: "white"
+        }
+      },
+      y: {
+        beginAtZero: true,
+        display: false,
+      }
+    },
+    reponsive: true,
+    maintainAspectRatio: false,
+  }
+
+  const balanceChartConfig = {
+    type: 'bar',
+    data: balanceChartData,
+    plugins: [ChartDataLabels],
+    options: balanceChartOptions
+  };
+
+  balanceChart = new Chart(balanceCanvas, balanceChartConfig);
 }
 
-const balanceChartConfig = {
-  type: 'bar',
-  data: balanceChartData,
-  plugins: [ChartDataLabels],
-  options: balanceChartOptions
-};
+
 
 
 // budget remaining insight
-const budgetRemainingLabels = [
-  'Rent',
-  'Bills',
-  'Shopping',
-  'Other'
-];
+const createBudgetRemainingChart = () => {
 
-const budgetRemainingData = {
-  labels: budgetRemainingLabels,
-  datasets: [{
-    label: 'Budget remaining',
-    data: calcBudgetRemaining(currentAccount),
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-    ],
-    borderWidth: 1,
-  }]
-};
+  if (budgetRemainingChart) budgetRemainingChart.destroy();
 
-const budgetRemainingOptions = {
-  plugins: {
-    legend: {
-      display: false
-    },
-    datalabels: {
-      color: 'white',
-      anchor: "end",
-      align: "top",
-    },
-    title: {
-      display: true,
-      text: "Budget Remaining",
-      color: "white",
-      padding: 20,
-      font: {
-        size: 15
-      }
-    }
-  },
-  scales: {
-    x: {
-      beginAtZero: true,
-      align: "center",
-      ticks: {
-        color: "white"
+  const budgetRemainingData = {
+    labels: [
+      'Rent',
+      'Bills',
+      'Shopping',
+      'Other'
+    ],
+    datasets: [{
+      label: 'Budget remaining',
+      data: calcBudgetRemaining(currentAccount),
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 205, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+        'rgb(255, 159, 64)',
+        'rgb(255, 205, 86)',
+        'rgb(75, 192, 192)',
+      ],
+      borderWidth: 1,
+    }]
+  };
+
+  const budgetRemainingOptions = {
+    plugins: {
+      legend: {
+        display: false
+      },
+      datalabels: {
+        color: 'white',
+        anchor: "end",
+        align: "top",
+      },
+      title: {
+        display: true,
+        text: "Budget Remaining",
+        color: "white",
+        padding: 20,
+        font: {
+          size: 15
+        }
       }
     },
-    y: {
-      beginAtZero: true,
-      display: false,
-    }
-  },
-  reponsive: true,
-  maintainAspectRatio: false,
+    scales: {
+      x: {
+        beginAtZero: true,
+        align: "center",
+        ticks: {
+          color: "white"
+        }
+      },
+      y: {
+        beginAtZero: true,
+        display: false,
+      }
+    },
+    reponsive: true,
+    maintainAspectRatio: false,
+  }
+
+  const budgetRemainingConfig = {
+    type: 'bar',
+    data: budgetRemainingData,
+    plugins: [ChartDataLabels],
+    options: budgetRemainingOptions
+  };
+
+  budgetRemainingChart = new Chart(budgetRemainingCanvas, budgetRemainingConfig);
 }
 
-const budgetRemainingConfig = {
-  type: 'bar',
-  data: budgetRemainingData,
-  plugins: [ChartDataLabels],
-  options: budgetRemainingOptions
-};
+
 
 
 // graph variables
 let currentBudgetChart, desiredBudgetChart, balanceChart, budgetRemainingChart;
-const charts = [currentBudgetChart, desiredBudgetChart, balanceChart, budgetRemainingChart];
 
 // update UI
 const updateUI = account => {
   displayBalance(account);
   displayTransactions(account);
-  if (currentBudgetChart) currentBudgetChart.destroy();
-  if (desiredBudgetChart) desiredBudgetChart.destroy();
-  if (balanceChart) balanceChart.destroy();
-  if (budgetRemainingChart) budgetRemainingChart.destroy();
-  currentBudgetChart = new Chart(currBudgetCanvas, currentBudgetConfig);
-  desiredBudgetChart = new Chart(desiredBudgetCanvas, desiredBudgetConfig);
-  balanceChart = new Chart(balanceCanvas, balanceChartConfig);
-  budgetRemainingChart = new Chart(budgetRemainingCanvas, budgetRemainingConfig);
+  createCurrBudgetChart();
+  createDesBudgetChart();
+  createBalanceChart();
+  createBudgetRemainingChart();
 };
 
 updateUI(currentAccount);
