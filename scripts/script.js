@@ -2,7 +2,10 @@
 
 const containerApp = document.querySelector(".container-app");
 
-const canvasArray = document.querySelectorAll("canvas");
+const currBudgetCanvas = document.getElementById("current-budget-doughnut");
+const desiredBudgetCanvas = document.getElementById("desired-budget-doughnut");
+const balanceCanvas = document.getElementById("balance-chart");
+const budgetRemainingCanvas = document.getElementById("budget-remaining");
 
 const dateLabel = document.querySelector(".balance-date");
 const balanceValue = document.querySelector(".balance-value");
@@ -627,17 +630,19 @@ const budgetRemainingConfig = {
 // graph variables
 let currentBudgetChart, desiredBudgetChart, balanceChart, budgetRemainingChart;
 const charts = [currentBudgetChart, desiredBudgetChart, balanceChart, budgetRemainingChart];
-const configsArray = [currentBudgetConfig, desiredBudgetConfig, balanceChart, budgetRemainingChart]
-
-// create graph function
-const createGraph = (canvas, config) => new Chart(canvas, config);
 
 // update UI
 const updateUI = account => {
   displayBalance(account);
   displayTransactions(account);
-  charts.forEach(chart => chart.destroy());
-  
+  if (currentBudgetChart) currentBudgetChart.destroy();
+  if (desiredBudgetChart) desiredBudgetChart.destroy();
+  if (balanceChart) balanceChart.destroy();
+  if (budgetRemainingChart) budgetRemainingChart.destroy();
+  currentBudgetChart = new Chart(currBudgetCanvas, currentBudgetConfig);
+  desiredBudgetChart = new Chart(desiredBudgetCanvas, desiredBudgetConfig);
+  balanceChart = new Chart(balanceCanvas, balanceChartConfig);
+  budgetRemainingChart = new Chart(budgetRemainingCanvas, budgetRemainingConfig);
 };
 
 updateUI(currentAccount);

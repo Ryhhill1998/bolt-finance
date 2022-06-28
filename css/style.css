@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  height: 95vh;
+  height: 100vh;
   background-color: #323232;
   text-align: center;
 }
@@ -16,7 +16,7 @@ body {
   font-size: 2.8rem;
   font-weight: bold;
   padding: 0;
-  margin: 0;
+  margin: -1rem;
   color: #323232;
   text-shadow: -0.8px -0.8px 0 #08D9D6, 0.8px -0.8px 0 #08D9D6, -0.8px 0.8px 0 #08D9D6, 0.8px 0.8px 0 #08D9D6;
   font-family: 'Yellowtail', cursive;
@@ -24,13 +24,11 @@ body {
 
 .logo-part2 {
   font-size: 1.8rem;
-  margin: 0;
 }
 
 .bolt {
   font-size: 2.9rem;
   transform: rotate(10deg);
-  margin: 0;
 }
 
 .container-app {
