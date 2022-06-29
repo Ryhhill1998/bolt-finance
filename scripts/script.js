@@ -111,9 +111,24 @@ const account2 = {
     },
   ],
   transactions: [{
+      date: '2022-06-03T17:21:38.602Z',
+      category: "bills",
+      value: -30,
+    },
+    {
       date: '2022-06-04T17:21:38.602Z',
       category: "bills",
       value: -60,
+    },
+    {
+      date: '2022-06-03T17:21:38.602Z',
+      category: "shopping",
+      value: -100,
+    },
+    {
+      date: '2022-06-28T17:21:38.602Z',
+      category: "other",
+      value: 50,
     },
     {
       date: '2022-06-03T17:21:38.602Z',
@@ -124,6 +139,11 @@ const account2 = {
       date: '2022-06-23T17:21:38.602Z',
       category: "shopping",
       value: -200,
+    },
+    {
+      date: '2022-06-28T17:21:38.602Z',
+      category: "other",
+      value: -40,
     },
     {
       date: '2022-06-11T17:21:38.602Z',
@@ -204,10 +224,7 @@ displayDate();
 const displayTransactions = account => {
 
   // local functions
-  const sortTransactions = transactions => {
-    const createDateNum = dateString => +new Date(dateString);
-    transactions.sort((a, b) => createDateNum(a.date) - createDateNum(b.date));
-  };
+  const sortTransactions = transactions => transactions.sort((a, b) => +new Date(a.date) - +new Date(b.date));
 
   const formatTransactionDate = date => {
     const daysFromNow = (+new Date() - +date) / (1000 * 60 * 60 * 24);
@@ -223,28 +240,37 @@ const displayTransactions = account => {
 
   // main function
   const accTransactions = account.transactions;
-
   sortTransactions(accTransactions);
 
   transactionsContainer.innerHTML = "";
   const header = `<h2 class="section-heading">Transactions</h2>`;
 
-  accTransactions.forEach(transaction => {
-    const date = formatTransactionDate(new Date(transaction.date));
-    const category = transaction.category;
-    const icon = categoryIcons[category];
-    const value = formatCurrency(transaction.value, "en-GB", "GBP");
-    const sign = Math.sign(transaction.value) === 1 ? "positive" : "negative";
+  const transactionDates = accTransactions.map(transaction => formatTransactionDate(new Date(transaction.date)));
+  const uniqueDates = [...new Set(transactionDates)];
 
-    const html = `
+  uniqueDates.forEach(date => {
+    let html = `
     <div class="date-row">
       <div class="transaction-date">${date}</div>
     </div>
-    <div class="transaction-row">
-      <div class="transaction-category">${category} ${icon}</div>
-      <div class="transaction-value transaction-${sign}">${value}</div>
-    </div>
     `;
+
+    const transactionsOnDate = accTransactions.filter(transaction => formatTransactionDate(new Date(transaction.date)) === date);
+
+    transactionsOnDate.forEach(transaction => {
+      const category = transaction.category;
+      const icon = categoryIcons[category];
+      const value = formatCurrency(transaction.value, "en-GB", "GBP");
+      const sign = Math.sign(transaction.value) === 1 ? "positive" : "negative";
+
+      html += `
+
+      <div class="transaction-row">
+        <div class="transaction-category">${category} ${icon}</div>
+        <div class="transaction-value transaction-${sign}">${value}</div>
+      </div>
+      `;
+    });
 
     transactionsContainer.insertAdjacentHTML('afterbegin', html);
   });
@@ -323,7 +349,9 @@ const calcBudgetRemaining = account => {
 // format balance entries over past 6 months
 const formatBalanceChanges = account => {
 
-  const generateMonth = date => formatDate(date, "en-GB", {month: "long"}).slice(0, 3);
+  const generateMonth = date => formatDate(date, "en-GB", {
+    month: "long"
+  }).slice(0, 3);
 
   const balanceHistory = account.balanceHistory;
 
@@ -341,7 +369,7 @@ const formatBalanceChanges = account => {
 
 // --------------- chartjs graphs --------------- //
 
-let currentAccount = account1;
+let currentAccount = account2;
 
 // current budget insight
 const createCurrBudgetChart = account => {
