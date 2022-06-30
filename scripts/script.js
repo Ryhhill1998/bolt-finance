@@ -182,6 +182,9 @@ const categoryIcons = {
 
 // --------------- app functions --------------- //
 
+// sort entries function
+const sortEntries = entries => entries.sort((a, b) => +new Date(a.date) - +new Date(b.date));
+
 // format date function
 const formatDate = (date, locale, options) => new Intl.DateTimeFormat(locale, options).format(new Date(date));
 
@@ -223,9 +226,7 @@ displayDate();
 // display transactions
 const displayTransactions = account => {
 
-  // local functions
-  const sortTransactions = transactions => transactions.sort((a, b) => +new Date(a.date) - +new Date(b.date));
-
+  // format transaction date to 3 letter month key
   const formatTransactionDate = date => {
     const daysFromNow = (+new Date() - +date) / (1000 * 60 * 60 * 24);
     if (daysFromNow < 1) return "Today";
@@ -240,7 +241,7 @@ const displayTransactions = account => {
 
   // main function
   const accTransactions = account.transactions;
-  sortTransactions(accTransactions);
+  sortEntries(accTransactions);
 
   transactionsContainer.innerHTML = "";
   const header = `<h2 class="section-heading">Transactions</h2>`;
@@ -354,6 +355,7 @@ const formatBalanceChanges = account => {
   }).slice(0, 3);
 
   const balanceHistory = account.balanceHistory;
+  sortEntries(balanceHistory);
 
   const output = {
     balances: balanceHistory.map(bal => bal.value),
