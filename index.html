@@ -97,20 +97,32 @@
     <!-- ADD NEW TRANSACTION -->
     <div class="add-transaction">
       <h2 class="section-heading">Add Transaction</h2>
-      <form class="form">
-        <label class="form-label form-label-categories" for="transaction-categories">Category</label>
-        <label class="form-label form-label-amount" for="transaction-amount">Amount</label>
-        <select class="form-item transaction-categories">
-          <option id="preset-selection">Select</option>
-          <option value="rent">Rent</option>
-          <option value="bills">Bills</option>
-          <option value="salary">Salary</option>
-          <option value="shopping">Shopping</option>
-          <option value="other">Other</option>
-        </select>
-        <input type="number" class="form-item transaction-amount">
-        <button class="form-item form-btn"><i class="fa-solid fa-plus"></i></button>
-      </form>
+      <div class="form-container">
+        <form class="form">
+          <div class="category-container">
+            <label class="form-label form-label-categories" for="transaction-categories">Category</label>
+            <select class="form-input transaction-categories">
+              <option id="preset-selection">Select</option>
+              <option value="rent">Rent</option>
+              <option value="bills">Bills</option>
+              <option value="salary">Salary</option>
+              <option value="shopping">Shopping</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="amount-container">
+            <label class="form-label form-label-amount" for="transaction-amount">Amount</label>
+            <input type="number" class="form-input transaction-amount">
+          </div>
+          <div class="date-container">
+            <label class="form-label form-label-date" for="transaction-date">Date</label>
+            <input type="text" class="form-input transaction-date" placeholder="dd/mm/yyyy">
+          </div>
+          <div class="button-container">
+            <button class="form-item form-btn"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </form>
+      </div>
     </div>
 
   </main>

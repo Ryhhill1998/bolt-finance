@@ -153,56 +153,66 @@ body {
   font-size: 1.3rem;
 }
 
-
 /* ADD TRANSACTION */
 .add-transaction {
-  grid-row: span 1;
   text-align: center;
+}
+
+.form-container {
+  border: solid 2px rgb(0, 173, 181);
+  background-color: rgb(0, 173, 181, 0.4);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
 }
 
 .form {
   display: grid;
-  grid-template-columns: 0.2fr 1fr repeat(2, 0.1fr) 1fr 0.2fr;
-  grid-template-rows: repeat(2, 1fr) repeat(2, 0.3fr) 1.2fr;
-  gap: 0.5rem 1.8rem;
-  padding: 4% 0;
-  border: solid 2px rgb(0, 173, 181);
-  background-color: rgb(0, 173, 181, 0.4);
-  border-radius: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 0.5rem 1rem;
+  align-items: center;
+  justify-content: center;
 }
 
-.form-label-categories {
-  grid-column: 2 / span 2;
+.category-container {
+  grid-column: 1;
+  display: grid;
 }
 
-.form-label-amount {
-  grid-column: 4 / span 2;
+.amount-container {
+  grid-column: 2;
+  display: grid;
 }
 
-.transaction-categories {
-  grid-column: 2 / span 2;
-  grid-row: span 2;
+.date-container {
+  grid-column: 3;
+  display: grid;
 }
 
-.transaction-amount {
-  grid-column: span 2;
-  grid-row: span 2;
-}
-
-.form-item {
+.form-input {
   text-align: center;
   border: none;
-  border-radius: 0.7rem;
+  border-radius: 0.5rem;
+  width: 150px;
+  height: 25px;
+  margin-top: 5px;
+}
+
+.button-container {
+  grid-column: 2;
 }
 
 .form-btn {
-  grid-row: 5;
-  grid-column: 3 / span 2;
   border-radius: 0.7rem;
   background-color: #fff;
   cursor: pointer;
   font-family: inherit;
   border: none;
+  width: 50px;
+  height: 25px;
 }
 
 .section-heading {
