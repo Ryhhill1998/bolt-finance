@@ -3,20 +3,20 @@ html {
   font-size: 1rem;
   font-family: 'Roboto', sans-serif;
   color: white;
-  padding: 1.5rem;
 }
 
 body {
   height: 100vh;
   background-color: #323232;
   text-align: center;
+  padding: 1%;
 }
 
 .logo {
   font-size: 2.8rem;
   font-weight: bold;
   padding: 0;
-  margin: -1rem;
+  margin: -0.5rem;
   color: #323232;
   text-shadow: -0.8px -0.8px 0 #08D9D6, 0.8px -0.8px 0 #08D9D6, -0.8px 0.8px 0 #08D9D6, 0.8px 0.8px 0 #08D9D6;
   font-family: 'Yellowtail', cursive;
@@ -31,19 +31,26 @@ body {
   transform: rotate(10deg);
 }
 
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: solid 1px white; */
+}
+
 .container-app {
   position: relative;
   margin: auto;
-  width: 80vw;
+  width: 85vw;
   height: 85vh;
   display: grid;
   grid-template-columns: 5fr 3fr;
-  grid-template-rows: repeat(4, 1fr) 0.5fr 1fr;
+  grid-template-rows: 0.2fr 2fr 0.2fr 1fr;
   gap: 2rem;
 }
 
 .insights {
-  grid-row: 2 / span 5;
+  grid-row: 2 / span 3;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -97,12 +104,12 @@ body {
 
 .balance-value {
   font-size: 2rem;
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
 }
 
 /* TRANSACTIONS */
 .transactions {
-  grid-row: 2 / span 3;
+  grid-row: 2;
   overflow: auto;
   text-align: left;
 }
@@ -147,6 +154,7 @@ body {
   display: flex;
   justify-content: space-between;
   padding: 0 2%;
+  margin: 0;
 }
 
 .label-summary {
@@ -172,7 +180,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
-  gap: 0.5rem 1rem;
+  gap: 10px 15px;
   align-items: center;
   justify-content: center;
 }
@@ -196,7 +204,7 @@ body {
   text-align: center;
   border: none;
   border-radius: 0.5rem;
-  width: 150px;
+  width: 120px;
   height: 25px;
   margin-top: 5px;
 }
@@ -211,8 +219,8 @@ body {
   cursor: pointer;
   font-family: inherit;
   border: none;
-  width: 50px;
-  height: 25px;
+  width: 70px;
+  height: 30px;
 }
 
 .section-heading {

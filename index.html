@@ -17,112 +17,116 @@
 
   <h1 class="logo">Bolt <i class="bolt fa-solid fa-bolt-lightning"></i><span class="logo-part2">Finance</span></h1>
 
-  <main class="container-app">
+  <main>
 
-    <!-- ACCOUNT INSIGHTS -->
-    <div class="insights">
-      <div class="current-budget">
-        <div class="chart-container">
-          <canvas id="current-budget-doughnut"></canvas>
-        </div>
-      </div>
-      <div class="desired-budget">
-        <div class="chart-container">
-          <canvas id="desired-budget-doughnut"></canvas>
-        </div>
-      </div>
-      <div class="balance-change">
-        <div class="chart-container">
-          <canvas id="balance-chart"></canvas>
-        </div>
-      </div>
-      <div class="budget-remaining">
-        <div class="chart-container">
-          <canvas id="budget-remaining"></canvas>
-        </div>
-      </div>
-    </div>
+    <div class="container-app">
 
-    <!-- BALANCE -->
-    <div class="balance">
-      <div>
-        <p class="balance-label">Balance</p>
-        <p class="balance-date">25/06/2022</p>
-      </div>
-      <div>
-        <p class="balance-value">£6000</p>
-      </div>
-    </div>
-
-    <!-- TRANSACTIONS -->
-    <div class="transactions">
-      <h2 class="section-heading">Transactions</h2>
-      <div class="date-row">
-        <div class="transaction-date">3 days ago</div>
-      </div>
-      <div class="transaction-row">
-        <div class="transaction-category">
-          Salary <i class="fa-solid fa-sack-dollar"></i>
-        </div>
-        <div class="transaction-value transaction-positive">£1600</div>
-      </div>
-      <div class="date-row">
-        <div class="transaction-date">14/06/2022</div>
-      </div>
-      <div class="transaction-row">
-        <div class="transaction-category">
-          Shopping <i class="fa-solid fa-cart-shopping"></i>
-        </div>
-        <div class="transaction-value transaction-negative">-£40</div>
-      </div>
-      <div class="transaction-row">
-        <div class="transaction-category">
-          Rent <i class="fa-solid fa-house"></i>
-        </div>
-        <div class="transaction-value transaction-negative">-£320</div>
-      </div>
-    </div>
-
-    <!-- TRANSACTIONS SUMMARY -->
-    <div class="summary">
-      <div>
-        <p class="total-in transaction-positive">In <span class="label-summary label-summary-in">£1000</span></p>
-      </div>
-      <div>
-        <p class="total-out transaction-negative">Out <span class="label-summary label-summary-out">£1000</span></p>
-      </div>
-    </div>
-
-
-    <!-- ADD NEW TRANSACTION -->
-    <div class="add-transaction">
-      <h2 class="section-heading">Add Transaction</h2>
-      <div class="form-container">
-        <form class="form">
-          <div class="category-container">
-            <label class="form-label form-label-categories" for="transaction-categories">Category</label>
-            <select class="form-input transaction-categories">
-              <option id="preset-selection">Select</option>
-              <option value="rent">Rent</option>
-              <option value="bills">Bills</option>
-              <option value="salary">Salary</option>
-              <option value="shopping">Shopping</option>
-              <option value="other">Other</option>
-            </select>
+      <!-- ACCOUNT INSIGHTS -->
+      <div class="insights">
+        <div class="current-budget">
+          <div class="chart-container">
+            <canvas id="current-budget-doughnut"></canvas>
           </div>
-          <div class="amount-container">
-            <label class="form-label form-label-amount" for="transaction-amount">Amount</label>
-            <input type="number" class="form-input transaction-amount">
+        </div>
+        <div class="desired-budget">
+          <div class="chart-container">
+            <canvas id="desired-budget-doughnut"></canvas>
           </div>
-          <div class="date-container">
-            <label class="form-label form-label-date" for="transaction-date">Date</label>
-            <input type="text" class="form-input transaction-date" placeholder="dd/mm/yyyy">
+        </div>
+        <div class="balance-change">
+          <div class="chart-container">
+            <canvas id="balance-chart"></canvas>
           </div>
-          <div class="button-container">
-            <button class="form-item form-btn"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <div class="budget-remaining">
+          <div class="chart-container">
+            <canvas id="budget-remaining"></canvas>
           </div>
-        </form>
+        </div>
       </div>
+
+      <!-- BALANCE -->
+      <div class="balance">
+        <div>
+          <p class="balance-label">Balance</p>
+          <p class="balance-date">25/06/2022</p>
+        </div>
+        <div>
+          <p class="balance-value">£6000</p>
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS -->
+      <div class="transactions">
+        <h2 class="section-heading">Transactions</h2>
+        <div class="date-row">
+          <div class="transaction-date">3 days ago</div>
+        </div>
+        <div class="transaction-row">
+          <div class="transaction-category">
+            Salary <i class="fa-solid fa-sack-dollar"></i>
+          </div>
+          <div class="transaction-value transaction-positive">£1600</div>
+        </div>
+        <div class="date-row">
+          <div class="transaction-date">14/06/2022</div>
+        </div>
+        <div class="transaction-row">
+          <div class="transaction-category">
+            Shopping <i class="fa-solid fa-cart-shopping"></i>
+          </div>
+          <div class="transaction-value transaction-negative">-£40</div>
+        </div>
+        <div class="transaction-row">
+          <div class="transaction-category">
+            Rent <i class="fa-solid fa-house"></i>
+          </div>
+          <div class="transaction-value transaction-negative">-£320</div>
+        </div>
+      </div>
+
+      <!-- TRANSACTIONS SUMMARY -->
+      <div class="summary">
+        <div>
+          <p class="total-in transaction-positive">In <span class="label-summary label-summary-in">£1000</span></p>
+        </div>
+        <div>
+          <p class="total-out transaction-negative">Out <span class="label-summary label-summary-out">£1000</span></p>
+        </div>
+      </div>
+
+
+      <!-- ADD NEW TRANSACTION -->
+      <div class="add-transaction">
+        <h2 class="section-heading">Add Transaction</h2>
+        <div class="form-container">
+          <form class="form">
+            <div class="category-container">
+              <label class="form-label form-label-categories" for="add-transaction-category">Category</label>
+              <select class="form-input add-transaction-category">
+                <option id="preset-selection">Select</option>
+                <option value="rent">Rent</option>
+                <option value="bills">Bills</option>
+                <option value="salary">Salary</option>
+                <option value="shopping">Shopping</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="amount-container">
+              <label class="form-label form-label-amount" for="add-transaction-amount">Amount</label>
+              <input type="number" class="form-input add-transaction-amount">
+            </div>
+            <div class="date-container">
+              <label class="form-label form-label-date" for="add-transaction-date">Date</label>
+              <input type="text" class="form-input add-transaction-date" placeholder="dd/mm/yyyy">
+            </div>
+            <div class="button-container">
+              <button class="form-item form-btn">ADD <i class="fa-solid fa-plus"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+
     </div>
 
   </main>

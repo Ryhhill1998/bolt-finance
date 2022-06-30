@@ -12,9 +12,10 @@ const balanceValue = document.querySelector(".balance-value");
 
 const transactionsContainer = document.querySelector(".transactions");
 
-const transactionCategory = document.querySelector(".transaction-categories");
-const transactionAmount = document.querySelector(".transaction-amount");
-const categoryPreset = document.getElementById("preset-selection");
+const addTransactionCategory = document.querySelector(".add-transaction-category");
+const addTransactionAmount = document.querySelector(".add-transaction-amount");
+const addTransactionDate = document.querySelector(".add-transaction-date");
+const addCategoryPreset = document.getElementById("preset-selection");
 const formBtn = document.querySelector(".form-btn");
 
 const labelSummaryIn = document.querySelector(".label-summary-in");
@@ -288,8 +289,14 @@ const displaySummary = account => {
   labelSummaryOut.textContent = formatCurrency(totalOut, "en-GB", "GBP");
 };
 
+const convertInputToDateObj = dateInput => {
+  // dd/mm/yyyy
+  let [date, month, year] = dateInput.split("/");
+  return [+year, +month, +date];
+};
+
 // add transaction function
-const addTransaction = (account, date, category, value) => {
+const addTransaction = (account, category, value, date = new Date()) => {
   account.transactions.push({
     date: date,
     category: category,
@@ -303,9 +310,11 @@ const addTransaction = (account, date, category, value) => {
 // add transaction functionality
 formBtn.addEventListener("click", (e) => {
   e.preventDefault();
-  addTransaction(currentAccount, new Date(), transactionCategory.value, +transactionAmount.value);
-  categoryPreset.selected = true;
-  transactionAmount.value = "";
+  const date = new Date([...convertInputToDateObj(addTransactionDate.value)]);
+  addTransaction(currentAccount, addTransactionCategory.value, +addTransactionAmount.value, date);
+  addCategoryPreset.selected = true;
+  addTransactionAmount.value = "";
+  addTransactionDate.value = "";
 });
 
 // --------------- graph functions --------------- //
